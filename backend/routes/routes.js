@@ -4,4 +4,6 @@ const router = express.Router()
 
 
 
-router.post('api/v1/register/',UserAuthenticationController.signupNewUser)
+router.post('/register',UserAuthenticationController.signupNewUser)
+
+module.exports = router

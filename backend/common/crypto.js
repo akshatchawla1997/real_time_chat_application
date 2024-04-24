@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const generatePassword = require('generate-password');
 
 const encryptedData = async (password) => {
     try {
@@ -45,21 +44,21 @@ function generateJwtToken(payload, secretKey, expiresIn) {
     return userId;
 }
   
-function generateRandomPassword() {
-const password = generatePassword.generate({
-length: 12,
-numbers: true,
-symbols: true,
-lowercase: true,
-uppercase: true,
-});
-return password;
-}
+// function generateRandomPassword() {
+// const password = generatePassword.generate({
+// length: 12,
+// numbers: true,
+// symbols: true,
+// lowercase: true,
+// uppercase: true,
+// });
+// return password;
+// }
 
 module.exports = {
     encryptedData,
     decryptedData,
     generateJwtToken,
-    generateRandomPassword,
+    // generateRandomPassword,
     decodeToken
 }
