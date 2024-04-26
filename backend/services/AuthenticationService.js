@@ -1,8 +1,6 @@
 
-const crypto = require("../common/crypto"); 
-const { sendMailToUser } = require("../common/sendMail");
+const crypto = require("../common/crypto");
 const { execute } = require("../config/databases/queryWrapperMysql");
-const { v4: uuidv4 } = require('uuid');
 
 
 // Now, you can use the imported modules as needed
