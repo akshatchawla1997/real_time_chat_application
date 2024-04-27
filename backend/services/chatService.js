@@ -1,4 +1,5 @@
 const { execute } = require("../config/databases/queryWrapperMysql");
+const { v4 : uuidv4 } =require('uuid');
 
 class ChatService{
     async getChatBySenderId(conversation_id){
@@ -17,11 +18,12 @@ class ChatService{
         if(existingResult.length > 0 ){
             return {"success":true, "id":existingResult[0].id}
         }else{
-            query = 'insert into conversations(sender_id, receiver_id)values(?,?)'
-            const insertResult = await execute(query, [conversationDetails.sender, conversationDetails.receiver])
+            let id = uuidv4()
+            query = 'insert into conversations(id, sender_id, receiver_id)values(?,?,?)'
+            const insertResult = await execute(query, [id,conversationDetails.sender, conversationDetails.receiver])
             console.log(insertResult)
             return (insertResult.affectedRows > 0)?
-            {"success":true, "message": "conversation created successfully","id":""}:{"success":
+            {"success":true, "message": "conversation created successfully","id":id}:{"success":
              false, message: "No rows affected" }
         }
     }
