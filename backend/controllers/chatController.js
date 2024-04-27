@@ -23,9 +23,9 @@ class ChatController{
 
     async startChat(request, response, next) {
         try {
-            const { conversation_id, message } = request.body;
-            if (!conversation_id || !message) return response.status(400).json("something went wrong");
-            const chat = await chatService.startChat({ conversation_id, message });
+            const { id, message } = request.body;
+            if (!id || !message) return response.status(400).json("something went wrong");
+            const chat = await chatService.startChat({ id, message });
             return chat.success ? response.status(200).json(chat) : response.status(203).json(chat);
         } catch (error) {
             next(error); // Pass the error to the error handler middleware

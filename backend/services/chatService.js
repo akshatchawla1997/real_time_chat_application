@@ -2,9 +2,11 @@ const { execute } = require("../config/databases/queryWrapperMysql");
 const { v4 : uuidv4 } =require('uuid');
 
 class ChatService{
-    async getChatBySenderId(conversation_id){
+    async getChatBySenderId(id){
+        console.log(id)
         const query = "select * from messages where conversation_id = ?"
-        const messagesResult = await execute(query, [conversation_id])
+        const messagesResult = await execute(query, [id])
+        console.log(messagesResult)
         if(messagesResult.length > 0){
             return {"success":true, "message":"chat found  successfully", "data":messagesResult}
         }else{
@@ -31,7 +33,7 @@ class ChatService{
     async startChat(chat){
         try {
             const query = 'INSERT INTO messages (conversation_id, message_text)VALUES (?, ?);'
-            const result = await execute(query, [chat.conversationId, chat.message]);
+            const result = await execute(query, [chat.id, chat.message]);
             console.log(result)
             return (result.affectedRows > 0)?
             {"success":true, "message":"chat initiated successfully"}:
