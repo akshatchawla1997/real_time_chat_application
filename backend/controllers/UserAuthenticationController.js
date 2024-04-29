@@ -34,6 +34,7 @@ class UserAuthenticationController{
             }
             if (!validator.isEmail(email))return response.status(400).json("Email should be valid email...")
             if (!validator.isStrongPassword(password))return response.status(400).json("Password should be a strong password...")
+            console.log(request.body)
             const result = await userService.registerUser({name, email, password})
             return result.success ? response.status(200).json(result):response.status(203).json(result)
             } catch (e) {
