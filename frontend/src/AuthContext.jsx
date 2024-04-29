@@ -1,21 +1,30 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { baseURL, postRequest } from "./services";
+import { postRequest, patchRequest } from "./services";
 
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [registerError, setRegisterError] = useState(null)
   const [isRegisterLoading, setisRegisterLoading] = useState(false)
+  const [loginInfo, setLoginInfo] = useState({
+    email:"",
+    password:""
+  })
+
   const [registerInfo, setRegisterInfo] = useState({
     name:"",
     email:"",
     password:""
   });
+  const [isLoginLoading, setisLoginLoading] = useState(false)
+  const [isLoginError, setIsLoginError] = useState(null)
 
-  console.log(registerInfo,"register info")
+
+  console.log(loginInfo,"login info")
+  console.log(user, "user")
 
   useEffect(()=>{
-    const user = localStorage.getItem("User")
+    const user = localStorage.getItem("user")
     setUser(JSON.parse(user))
   },[])
   const updateRegisterInfo = useCallback((info) => {
@@ -34,6 +43,27 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(response))
     setUser(response)
   })
+
+  const logoutUser = useCallback(()=>{
+    localStorage.removeItem("user")
+    setUser(null)
+  }, [])
+
+  const updateLoginInfo = useCallback((info) => {
+    setLoginInfo(info);
+  }, []);
+
+  const loginUser = useCallback(async()=>{
+    setisLoginLoading(true)
+    setIsLoginError(null)
+    const response = await patchRequest('login', loginInfo)
+    setisLoginLoading(false)
+    if(response.error){
+        return setIsLoginError(response)
+    }
+    localStorage.setItem('user', JSON.stringify(response))
+    setUser(response)
+  },[loginInfo])
   return (
     <AuthContext.Provider
       value={{
@@ -42,7 +72,12 @@ export const AuthContextProvider = ({ children }) => {
         updateRegisterInfo,
         registerUser,
         registerError,
-        isRegisterLoading
+        isRegisterLoading,
+        logoutUser,
+        loginUser,
+        isLoginError,
+        updateLoginInfo,
+        loginInfo
       }}
     >
       {children}
