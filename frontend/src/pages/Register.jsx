@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Alert, Form, Row, Col, Stack } from "react-bootstrap";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 function Register() {
   const { user, registerInfo, updateRegisterInfo, registerUser, registerError, isRegisterLoading } = useContext(AuthContext);
