@@ -3,7 +3,7 @@
 // get user chat
 // find  chat
 
-const { addAbortListener } = require("nodemailer/lib/xoauth2");
+// const { addAbortListener } = require("nodemailer/lib/xoauth2");
 const chatService = require("../services/chatService");
 
 class ChatController{
@@ -36,8 +36,9 @@ class ChatController{
     async getConversation(request, response, next){
         try {
             const conversation_id = request.params
-            const mesages = chatService.getChatBySenderId(conversation_id)
-            return mesages.success ? response.status(200).json(mesages):response.status(203).json(mesages)
+            const messages = await chatService.getChatBySenderId(conversation_id)
+            console.log("messages", messages)
+            return messages.success ? response.status(200).json(messages):response.status(203).json(messages)
         } catch (error) {
             console.log(error)
             next(error)

@@ -3,14 +3,18 @@ const { v4 : uuidv4 } =require('uuid');
 
 class ChatService{
     async getChatBySenderId(id){
-        console.log(id)
-        const query = "select * from messages where conversation_id = ?"
-        const messagesResult = await execute(query, [id])
-        console.log(messagesResult)
-        if(messagesResult.length > 0){
-            return {"success":true, "message":"chat found  successfully", "data":messagesResult}
-        }else{
-            return {"success":false, "message":"no chat found", "data":messagesResult}
+        try {
+            const query = "select * from messages where conversation_id = ?"
+            const messagesResult = await execute(query, [id])
+            console.log(messagesResult.length)
+            if(messagesResult.length > 0){
+                return {"success":true, "message":"chat found  successfully", "data":messagesResult}
+            }else{
+                return {"success":false, "message":"no chat found", "data":messagesResult}
+            }
+            
+        } catch (error) {
+            return {"success":false, "message":"Somenthing went wrong", "error":error}
         }
     }
 
@@ -36,7 +40,7 @@ class ChatService{
             const result = await execute(query, [chat.id, chat.message]);
             console.log(result)
             return (result.affectedRows > 0)?
-            {"success":true, "message":"chat initiated successfully"}:
+            {"success":true, "message":"chat initiated successfully", "data":result}:
             {"success":false, message: "No rows affected" }
         } catch (error) {
             console.log(error)
