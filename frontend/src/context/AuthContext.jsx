@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { postRequest, patchRequest } from "./services";
+import { postRequest, patchRequest } from "../services";
 
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
