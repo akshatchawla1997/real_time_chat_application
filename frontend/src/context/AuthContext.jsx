@@ -18,11 +18,7 @@ export const AuthContextProvider = ({ children }) => {
   });
   const [isLoginLoading, setisLoginLoading] = useState(false)
   const [isLoginError, setIsLoginError] = useState(null)
-
-
-  console.log(loginInfo,"login info")
-  console.log(user, "user")
-
+  
   useEffect(()=>{
     const user = localStorage.getItem("user")
     setUser(JSON.parse(user))
